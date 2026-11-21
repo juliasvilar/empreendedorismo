@@ -4,10 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#faf8ff">
-<title>EletroLink – Mapa e Eletropostos</title>
+<title>EletroLink – Mapa e Eletropostos (Boa Viagem)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -49,25 +50,14 @@
 <symbol id="bus" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="15" rx="3"/><path d="M4 11h16M8 21v-3M16 21v-3"/></symbol>
 <symbol id="building" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="1"/><path d="M9 7h2M13 7h2M9 11h2M13 11h2M10 21v-4h4v4"/></symbol></defs></svg>
 <header class="hdr"><div class="l"><span class="logo-s"><svg class="ico fill"><use href="#bolt"/></svg></span><div class="brand"><b>EletroLink</b><small>Mapa</small></div></div><span class="prof"><svg class="ico "><use href="#user"/></svg></span></header>
-<main class="mp"><div class="map"><div class="mapbg"><span class="maplabel" style="left:20px;top:300px">Pinheiros</span><span class="maplabel" style="left:250px;top:260px">São Paulo</span><span class="maplabel" style="left:60px;top:430px">Rio Pinheiros</span></div><div class="tint"></div>
- <div class="top"><div class="srow"><div class="search"><svg class="ico " style="font-size:16px"><use href="#search"/></svg><span>Para onde você vai? (Shopping, Graal...)</span><svg class="ico " style="font-size:14px"><use href="#x"/></svg></div><a class="fbtn" href="filtros.html"><svg class="ico "><use href="#sliders"/></svg><i>2</i></a></div>
-  <div class="qf"><span class="on"><svg class="ico "><use href="#check-circle"/></svg>Livres agora</span><span><svg class="ico "><use href="#bolt"/></svg>Ultra-rápido (DC)</span><span><svg class="ico "><use href="#gift"/></svg>Gratuitos / Econômicos</span></div></div>
- <div class="me2"><div class="h1"></div><div class="core"><i><svg class="ico " style="font-size:10px"><use href="#navigate"/></svg></i></div><em>Você está aqui</em></div>
- <div class="mpin" style="left:13%;top:31%"><div class="p" style="background:var(--teal)"><svg class="ico "><use href="#bolt"/></svg>50 kW • Livre</div><i style="background:var(--teal)"></i></div><div class="mpin" style="left:41%;top:25%"><div class="p" style="background:var(--sky)"><svg class="ico "><use href="#hourglass"/></svg>Livre em 14m</div><i style="background:var(--sky)"></i></div><div class="mpin" style="left:38%;top:47%"><div class="p" style="background:var(--primary)"><svg class="ico "><use href="#bolt"/></svg>150 kW DC</div><i style="background:var(--primary)"></i></div><div class="mpin" style="left:6%;top:59%"><div class="p" style="background:var(--red)"><svg class="ico "><use href="#alert"/></svg>Manutenção</div><i style="background:var(--red)"></i></div>
- <div class="fabs"><button class="cbtn"><svg class="ico "><use href="#locate"/></svg></button><button class="cbtn"><svg class="ico "><use href="#layers"/></svg></button></div></div>
+<main class="mp"><div class="map"><div id="mLeafletMap" style="position:absolute;inset:0"></div>
+ <div class="top"><div class="srow"><div class="search"><svg class="ico " style="font-size:16px"><use href="#search"/></svg><input type="text" id="mSearchInput" placeholder="Buscar em Boa Viagem..." aria-label="Buscar eletropostos"><button type="button" id="mClearSearch" aria-label="Limpar busca"><svg class="ico " style="font-size:14px"><use href="#x"/></svg></button></div><a class="fbtn" href="filtros.html"><svg class="ico "><use href="#sliders"/></svg><i id="mFilterBadge">0</i></a></div>
+  <div class="qf" id="mQuickFilters"></div></div>
+ <div class="fabs"><button type="button" class="cbtn" id="mLocateBtn" title="Centralizar"><svg class="ico "><use href="#locate"/></svg></button><button type="button" class="cbtn" id="mLayersBtn" title="Camadas"><svg class="ico "><use href="#layers"/></svg></button></div></div>
  <section class="sheet"><div class="grab"></div>
-  <div class="sh"><div><h2>Carregadores próximos</h2><small>4 encontrados em um raio de 2,5 km</small></div><span class="sort"><svg class="ico " style="font-size:12px"><use href="#sliders"/></svg>Ordenar</span></div>
-  <div class="stack">
-   <article class="sc"><div class="t"><div><h3>Shopping Eldorado <small>Rede Faísca</small></h3><div class="ad">Av. Rebouças, 3970 - Pinheiros</div></div><span class="bd mint"><i></i>2 de 2 Livres</span></div>
-    <div class="m"><div class="chips"><span class="cp"><svg class="ico "><use href="#plug"/></svg>CCS2 50kW</span><span class="cp"><svg class="ico "><use href="#plug"/></svg>Tipo 2 22kW</span></div><div class="pr"><b>R$ 1,95</b> <small>/kWh •</small><em>650m</em></div></div>
-    <a class="act" href="detalhes.html"><svg class="ico "><use href="#navigate"/></svg>Navegar até a Vaga</a></article>
-   <article class="sc"><div class="t"><div><h3>Campus Universitário <small>Voltix</small></h3><div class="ad">Portaria 2 - Próx. Biblioteca Central</div></div>
-     <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end"><span class="bd sky"><svg class="ico " style="font-size:11px"><use href="#hourglass"/></svg>Livre em ~18m</span><span class="conf">Confiança <i></i><i></i><i></i></span></div></div>
-    <div class="m"><span class="cp"><svg class="ico "><use href="#plug"/></svg>Tipo 2 22kW (AC)</span><div class="pr"><b class="g">Gratuita</b> <small>• 400m</small></div></div>
-    <a class="act soft" href="detalhes.html"><svg class="ico "><use href="#clock"/></svg>Entrar na Fila Virtual</a></article>
-   <article class="sc"><div class="t"><div><h3>Posto Rota 300 <small>Rod. Bandeirantes</small></h3><div class="ad">Km 28 Sentido Interior</div></div><span class="bd mint"><i></i>1 Vaga Livre</span></div>
-    <div class="m"><span class="cp b"><svg class="ico "><use href="#bolt"/></svg>Ultra-rápido CCS2 150kW</span><div class="pr"><b>R$ 2,40</b> <small>/kWh •</small><em>1.2km</em></div></div>
-    <a class="act" href="detalhes.html"><svg class="ico "><use href="#navigate"/></svg>Iniciar Rota Rápida</a></article>
-  </div></section></main>
+  <div class="sh"><div><h2>Carregadores próximos</h2><small id="mSheetSub">Carregando Boa Viagem...</small></div><button type="button" class="sim-pill" id="mSimBtn">Simular check-out</button></div>
+  <div class="stack" id="mStationStack"></div></section></main>
 <nav class="nav"><a class="on" href="mapa.html"><svg class="ico "><use href="#layers"/></svg>Mapa</a><a href="#"><svg class="ico "><use href="#plug"/></svg>Minhas Recargas</a><a href="#"><svg class="ico "><use href="#car"/></svg>Perfil</a></nav>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<script src="app.js"></script>
 </body></html>

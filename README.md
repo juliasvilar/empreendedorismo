@@ -94,7 +94,7 @@ empreendedorismo/
 │   ├── checkout.html       # Sessão de recarga ativa e check-out em 1 toque
 │   ├── style.css           # Design system compartilhado
 │   └── app.js              # Base de Boa Viagem, mapa Leaflet, filtros, previsão e estado
-└── eletrolink-mobile/      # Telas conceituais da versão mobile
+└── eletrolink-mobile/      # Protótipo Mobile interativo com as mesmas funcionalidades do MVP (Boa Viagem)
 ```
 
 ---

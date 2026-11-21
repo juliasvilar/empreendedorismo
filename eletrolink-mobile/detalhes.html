@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -49,22 +50,21 @@
 <symbol id="bus" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="15" rx="3"/><path d="M4 11h16M8 21v-3M16 21v-3"/></symbol>
 <symbol id="building" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="1"/><path d="M9 7h2M13 7h2M9 11h2M13 11h2M10 21v-4h4v4"/></symbol></defs></svg>
 <header class="hdr"><div class="l"><a class="back" href="mapa.html" title="Voltar"><svg class="ico "><use href="#arrow-left"/></svg></a><span class="logo-s"><svg class="ico fill"><use href="#bolt"/></svg></span><span class="ttl">Detalhes Da Estação</span></div><span class="prof"><svg class="ico "><use href="#user"/></svg></span></header>
-<main class="dt"><div class="hero"><div class="totem"></div><div class="tp"><span class="net"><svg class="ico "><use href="#check-circle"/></svg>Rede neutra Voltix</span><button class="fav"><svg class="ico "><use href="#star"/></svg></button></div>
- <div class="bt"><small>Campus Norte • Totem #04</small><h2>Rede Voltix - Campus Norte</h2></div></div>
+<main class="dt"><div class="hero"><div class="totem"></div><div class="tp"><span class="net" id="mdNet"><svg class="ico "><use href="#check-circle"/></svg>Rede Neutra</span><button type="button" class="fav"><svg class="ico "><use href="#star"/></svg></button></div>
+ <div class="bt"><small id="mdSub">Boa Viagem</small><h2 id="mdName">Carregando...</h2></div></div>
 <div class="cont">
- <div class="adr"><svg class="ico "><use href="#pin"/></svg><span>Rua da Consolação, 1200 - São Paulo, SP</span><span style="color:var(--muted)">•</span><b>400 m</b></div>
- <section class="box pcard"><div class="r1"><span class="st"><i></i>Parcialmente Ocupado</span><div class="pv">Vaga AC prevista para<b>~15:00</b></div></div>
-  <div class="inner"><div class="a"><span><svg class="ico "><use href="#hourglass"/></svg>Deve liberar em cerca de 18 min</span><em>Calc. às 14:42</em></div>
-   <div class="cf"><div><i></i><i></i><i></i></div>Alta confiança</div><p>Baseado em 6 check-outs recentes de motoristas neste mesmo horário de pico.</p></div>
-  <div class="up"><span><svg class="ico " style="font-size:12px"><use href="#check-circle"/></svg><span>Atualizado há 2 min por <b>@marcos_ev</b></span></span><i></i></div></section>
- <section class="csec"><div class="hd"><h3>Conectores Disponíveis</h3><small>2 tomadas</small></div>
-  <div class="box cn"><div class="r"><div class="l"><span class="ic"><svg class="ico "><use href="#bolt"/></svg></span><div><div class="tg"><h4>CCS2 DC</h4><span class="live2">Livre agora</span></div><p>Ultra Rápido • Corrente Contínua</p></div></div><div class="kw">50<br>kW</div></div>
-   <div class="tf2"><span>Tarifa de uso:</span><span><b>R$ 2,10</b> <small>/ kWh</small></span></div></div>
-  <div class="box cn used"><div class="r"><div class="l"><span class="ic"><svg class="ico "><use href="#plug"/></svg></span><div><div class="tg"><h4>Tipo 2 AC</h4><span class="live2">Em uso (18m)</span></div><p>Conveniente • Corrente Alternada</p></div></div><div class="kw">22<br>kW</div></div>
-   <div class="tf2"><span>Tarifa de conveniência:</span><b class="free">GRATUITA</b></div></div></section>
- <section class="box acc"><div class="hd"><h3>Localização &amp; Acesso</h3><span>24 horas</span></div>
-  <div class="map2"><div class="mapbg"></div><div><svg class="ico "><use href="#parking"/></svg>Estacionamento térreo • Sem cancela</div></div></section>
- <div class="btns"><a class="btn1" href="#"><b><svg class="ico " style="font-size:16px"><use href="#navigate"/></svg>Ir até aqui</b><span>Abre no Waze ou Google Maps do seu celular</span></a>
-  <a class="btn2" href="#"><svg class="ico "><use href="#check-circle"/></svg>Estou aqui e comecei a recarregar</a></div>
+ <div class="adr" id="mdAddr"></div>
+ <section class="box pcard"><div class="r1"><span class="st" id="mdPredStatus"><i></i>Verificando</span><div class="pv" id="mdPredTime"></div></div>
+  <div class="inner"><div class="a"><span id="mdPredEta"></span></div>
+   <div class="cf"><div><i></i><i></i><i></i></div>Alta confiança</div><p id="mdPredBasis"></p></div>
+  <div class="up"><span id="mdPredUpd"></span><i></i></div></section>
+ <section class="csec"><div class="hd"><h3>Conectores Disponíveis</h3><small id="mdConnCount"></small></div>
+  <div id="mdConns"></div></section>
+ <section class="box acc"><div class="hd"><h3>Localização &amp; Acesso</h3><span>Boa Viagem</span></div>
+  <div class="map2"><div id="mdMiniMap" style="position:absolute;inset:0;border-radius:12px"></div><div id="mdAccessTip" style="z-index:400"></div></div></section>
+ <div class="btns"><a class="btn1" id="mdGoMaps" href="#"><b><svg class="ico " style="font-size:16px"><use href="#navigate"/></svg>Ir até aqui</b><span>Abre no Waze ou Google Maps do seu celular</span></a>
+  <a class="btn2" id="mdStartCharge" href="#"><svg class="ico "><use href="#check-circle"/></svg>Estou aqui e comecei a recarregar</a></div>
 </div></main>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<script src="app.js"></script>
 </body></html>

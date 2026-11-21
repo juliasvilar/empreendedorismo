@@ -2,7 +2,7 @@
 (function () {
   'use strict';
 
-  const STORAGE_KEY = 'eletrolink_mvp_bv_v2';
+  const STORAGE_KEY = 'eletrolink_mvp_bv_v3';
   const USER_POS = { lat: -8.1235, lng: -34.9032, label: 'Boa Viagem, Recife – PE' };
 
   const DEFAULT_STATIONS = [
@@ -1664,7 +1664,10 @@
           showToast({
             type: 'info',
             title: 'Todos os postos já estão livres',
-            message: 'Você pode restaurar a demonstração em "Minhas Recargas" para simular novamente.'
+            message: 'Você já liberou todos os postos ocupados nos testes anteriores.',
+            actionLabel: 'Restaurar ocupados',
+            onAction: resetDemoState,
+            duration: 7000
           });
         }
       });

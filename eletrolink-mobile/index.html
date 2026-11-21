@@ -4,10 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#faf8ff">
-<title>EletroLink – Boas-vindas</title>
+<title>EletroLink – Boas-vindas (Boa Viagem, Recife)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -53,21 +54,23 @@
 <div class="body">
  <section class="box"><div class="hd"><div class="t"><span class="num">1</span><h2>Tipo de Plugue do seu Carro</h2></div><small>Compatibilidade</small></div>
   <p>Selecione os conectores compatíveis para filtrar automaticamente os eletropostos disponíveis.</p>
-  <div class="helper"><span class="t"><svg class="ico "><use href="#car"/></svg>Meu carro aceita CCS2 &amp; Tipo 2</span><span class="ap">Aplicar</span></div>
+  <div class="helper"><span class="t"><svg class="ico "><use href="#car"/></svg>Meu carro aceita CCS2 &amp; Tipo 2</span><button type="button" class="ap" id="wlApplyCar">Aplicar</button></div>
   <div class="plugs">
-   <div class="plug"><span class="ck"><svg class="ico "><use href="#check"/></svg></span><div style="flex:1;min-width:0"><div class="r1"><b>CCS2 (Combo 2)</b><span style="background:var(--mint2);color:#005049">Rápido DC</span></div><p>Corrente contínua de alta potência (50kW a 350kW).</p><span class="hint" style="background:rgba(134,242,228,.4);color:var(--teal)"><svg class="ico " style="font-size:11px"><use href="#bolt"/></svg>Mais comum em viagens</span></div></div>
-   <div class="plug"><span class="ck"><svg class="ico "><use href="#check"/></svg></span><div style="flex:1;min-width:0"><div class="r1"><b>Tipo 2 (Mennekes)</b><span style="background:var(--sky-bg);color:#004b73">AC Urbano</span></div><p>Recarga semirápida em shoppings, mercados e garagens.</p><span class="hint" style="background:rgba(0,115,174,.2);color:var(--sky-text)"><svg class="ico " style="font-size:11px"><use href="#building"/></svg>Ideal para recarga urbana</span></div></div>
-   <div class="plug off"><span class="ck"><svg class="ico "><use href="#check"/></svg></span><div style="flex:1;min-width:0"><div class="r1"><b>CHAdeMO</b><span style="background:var(--s2);color:var(--text2)">Rápido DC</span></div><p>Padrão japonês utilizado em modelos como Nissan Leaf e i-MiEV.</p></div></div>
+   <div class="plug" data-plug="CCS2"><span class="ck"><svg class="ico "><use href="#check"/></svg></span><div style="flex:1;min-width:0"><div class="r1"><b>CCS2 (Combo 2)</b><span style="background:var(--mint2);color:#005049">Rápido DC</span></div><p>Corrente contínua de alta potência (40kW a 120kW).</p><span class="hint" style="background:rgba(134,242,228,.4);color:var(--teal)"><svg class="ico " style="font-size:11px"><use href="#bolt"/></svg>Mais comum em viagens</span></div></div>
+   <div class="plug" data-plug="Tipo 2"><span class="ck"><svg class="ico "><use href="#check"/></svg></span><div style="flex:1;min-width:0"><div class="r1"><b>Tipo 2 (Mennekes)</b><span style="background:var(--sky-bg);color:#004b73">AC Urbano</span></div><p>Recarga semirápida em shoppings, mercados e garagens.</p><span class="hint" style="background:rgba(0,115,174,.2);color:var(--sky-text)"><svg class="ico " style="font-size:11px"><use href="#building"/></svg>Ideal para recarga urbana</span></div></div>
+   <div class="plug off" data-plug="CHAdeMO"><span class="ck"><svg class="ico "><use href="#check"/></svg></span><div style="flex:1;min-width:0"><div class="r1"><b>CHAdeMO</b><span style="background:var(--s2);color:var(--text2)">Rápido DC</span></div><p>Padrão japonês utilizado em modelos como Nissan Leaf e i-MiEV.</p></div></div>
   </div></section>
  <section class="box gps"><div class="hd"><div class="t"><span class="num" style="min-width:24px">2</span><h2>Localização do GPS</h2></div><span class="on"><i></i>Ativo</span></div>
-  <p>Mostramos eletropostos com vagas livres no seu trajeto em tempo real.</p>
-  <div class="minimap"><div class="mapbg"></div>
-   <div><span class="loc"><svg class="ico "><use href="#pin"/></svg>São Paulo • Paulista / Pinheiros</span><span class="liv">18 livres próximos</span></div>
-   <div><span class="acc"><svg class="ico " style="font-size:14px"><use href="#check-circle"/></svg>Precisão elevada (GPS)</span><span class="upd"><svg class="ico " style="font-size:11px"><use href="#refresh"/></svg>Atualizar</span></div></div>
-  <a class="useloc" href="#"><svg class="ico " style="font-size:15px"><use href="#navigate"/></svg>Usar minha localização atual</a></section>
- <div class="banner2"><div><small>Rede aberta &amp; neutra</small><b>Mais de 4.200 conectores mapeados</b></div></div>
+  <p>Mostramos eletropostos com vagas livres no seu trajeto em Boa Viagem, Recife.</p>
+  <div class="minimap"><div id="wlMiniMap" style="position:absolute;inset:0;border-radius:12px"></div>
+   <div><span class="loc"><svg class="ico "><use href="#pin"/></svg>Recife • Boa Viagem</span><span class="liv">9 pontos próximos</span></div>
+   <div><span class="acc"><svg class="ico " style="font-size:14px"><use href="#check-circle"/></svg>Posição fixa (Piloto)</span><span class="upd"><svg class="ico " style="font-size:11px"><use href="#refresh"/></svg>Ativo</span></div></div>
+  <a class="useloc" id="wlUseLoc" href="#"><svg class="ico " style="font-size:15px"><use href="#navigate"/></svg>Usar minha localização em Boa Viagem</a></section>
+ <div class="banner2"><div><small>Rede aberta &amp; neutra</small><b>Corredor Piloto Boa Viagem • Recife</b></div></div>
  <div style="display:flex;flex-direction:column;gap:12px;padding-top:8px">
   <a class="cta" href="mapa.html">Começar a rodar <svg class="ico " style="font-size:15px"><use href="#arrow-right"/></svg></a>
   <div class="trust"><svg class="ico "><use href="#info"/></svg><span>Você pode trocar de carro ou plugue a qualquer momento nas configurações.</span></div></div>
 </div></main>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<script src="app.js"></script>
 </body></html>
