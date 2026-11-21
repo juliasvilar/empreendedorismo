@@ -31,12 +31,19 @@ Para tornar os testes e a apresentação do MVP reproduzíveis, previsíveis e s
 
 ---
 
-## ▶️ Como Abrir o Site
+## ▶️ Como Abrir o Site e o App Mobile
 
-O projeto é 100% front-end estático (HTML, CSS e JavaScript puro), sem necessidade de instalar dependências ou rodar servidor:
+O projeto é 100% front-end estático (HTML, CSS e JavaScript puro), sem necessidade de instalar dependências ou rodar backend. **Ambas as versões estão completas com todas as funcionalidades do MVP** e podem ser apresentadas em aula:
 
-1. Acesse a pasta `eletrolink-site/`.
-2. Abra o arquivo `index.html` diretamente no navegador (Chrome, Edge ou Firefox).
+- **Versão Web Desktop:** `eletrolink-site/index.html`
+- **Versão Mobile (App):** `eletrolink-mobile/index.html` *(inicia na tela de boas-vindas/configuração de plugues e segue para o mapa interativo de Boa Viagem)*
+
+### Formas de abrir:
+1. **Pelo VS Code (recomendado para apresentação em aula):**
+   - Instale a extensão **Live Preview** (Microsoft) no VS Code.
+   - Clique com o botão direito em `eletrolink-site/index.html` (ou `eletrolink-mobile/index.html`) e selecione **"Show Preview"** (ou abra no navegador pela opção do Live Preview).
+2. **Direto pelo navegador:**
+   - Acesse a pasta `eletrolink-site/` ou `eletrolink-mobile/` e dê um duplo clique no arquivo `index.html` para abrir no Chrome, Edge ou Firefox.
 
 *(Recomendado ter conexão com a internet para carregar os tiles do mapa interativo e as fontes.)*
 
