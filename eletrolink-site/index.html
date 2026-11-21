@@ -3,10 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=1280">
-<title>EletroLink – Mapa e Eletropostos</title>
+<title>EletroLink – Mapa e Eletropostos (Boa Viagem, Recife)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -58,66 +59,28 @@
 <main class="s1">
  <aside class="side">
   <div class="top">
-   <div class="sbox"><svg class="ico "><use href="#search"/></svg><div class="t">Shopping Eldorado, Pinheiros</div><svg class="ico "><use href="#sliders"/></svg></div>
-   <div class="chips">
-    <span class="chip on1"><svg class="ico "><use href="#check"/></svg>Livres agora</span>
-    <span class="chip on2"><svg class="ico "><use href="#bolt"/></svg>Ultra-rápido DC</span>
-    <span class="chip">Tipo 2</span><span class="chip">Gratuito</span>
-    <a class="chip all" href="filtros.html"><svg class="ico "><use href="#sliders"/></svg>Filtros (2)</a>
-   </div>
+   <div class="sbox"><svg class="ico "><use href="#search"/></svg><input type="text" id="sideSearchInput" placeholder="Buscar em Boa Viagem, Recife..." aria-label="Buscar eletropostos em Boa Viagem"><a href="filtros.html" title="Abrir filtros avançados"><svg class="ico "><use href="#sliders"/></svg></a></div>
+   <div class="chips" id="quickChips"></div>
   </div>
-  <div class="listhead"><b>4 carregadores <span style="font-weight:500">em raio de 2,5 km</span></b><span>SP • ZONA OESTE</span></div>
-  <div class="cards"><article class="card sel">
- <div class="head"><div><div class="eyebrow">Rede Faísca <em>• Pinheiros</em></div><h3>Shopping Eldorado</h3><div class="addr">Av. Rebouças, 3970 - G2 Verde</div></div>
- <span class="badge b-green"><i class="dot"></i>2/2 Livres</span></div>
- <div class="conn"><div><svg class="ico " style="color:var(--primary);font-size:13px"><use href="#bolt"/></svg>50 kW <small>CCS2</small></div><div><svg class="ico " style="color:var(--primary);font-size:13px"><use href="#plug"/></svg>22 kW <small>Tipo 2</small></div></div>
- <div class="price"><b>R$ 1,95</b> / kWh <span>•</span> <span>650m</span> <span class="badge b-blue" style="margin-left:auto">Gratuito 2h</span></div>
- <a class="cta" href="detalhes.html">Ver Detalhes e Rota <svg class="ico "><use href="#arrow-right"/></svg></a>
-</article><a class="card" href="detalhes.html">
- <div class="head"><div><div class="eyebrow">Rede Voltix <em>• Consolação</em></div><h3>Campus Norte</h3><div class="addr">Rua da Consolação, 1200</div></div>
- <span class="badge b-amber"><svg class="ico " style="font-size:11px"><use href="#hourglass"/></svg>Livre em ~18m</span></div>
- <div class="conf">Confiança preditiva: <i></i><i></i><i></i> <b style="color:var(--green-text)">Alta</b></div>
- <div class="conf" style="color:var(--muted)"><svg class="ico " style="font-size:12px"><use href="#check-circle"/></svg> Check-out recente</div>
- <div class="conn"><div>CCS2 50kW <small style="color:var(--green-text)">● Livre</small></div><div>Tipo 2 22kW <small>18m rest.</small></div></div>
- <div class="price"><span class="free">Tarifa Gratuita</span> <span>•</span> <span>400m</span></div>
-</a><article class="card">
- <div class="head"><div><div class="eyebrow">Ultra DC <em>• Rodovia</em></div><h3>Posto Rota 300</h3><div class="addr">Rod. dos Bandeirantes, Km 28</div></div>
- <span class="badge b-blue">1 Vaga Livre</span></div>
- <div class="conn"><div><svg class="ico " style="color:var(--primary);font-size:13px"><use href="#bolt"/></svg>150 kW DC <small>Conector CCS2 Turbo</small></div></div>
- <div class="conf" style="color:var(--teal)"><svg class="ico " style="font-size:12px"><use href="#bolt"/></svg> Até 80% em 22m</div>
- <div class="price"><b>R$ 2,40</b> / kWh <span>•</span> <span>1,2 km</span></div>
-</article><article class="card off">
- <div class="head"><div><div class="eyebrow">Rede Faísca <em>• Jardins</em></div><h3>Hipermercado Silva</h3><div class="addr">Av. Brigadeiro Luís Antônio, 2100</div></div>
- <span class="badge b-red"><svg class="ico " style="font-size:12px"><use href="#alert"/></svg>Inoperante</span></div>
- <div class="warn"><b>Em manutenção preventiva</b><br>Substituição do módulo de refrigeração CCS2. Retorno previsto: amanhã, 08:00.</div>
- <div class="price"><span style="color:var(--red);font-weight:600">2 carregadores indisponíveis</span> <span>•</span> <span>1,8 km</span></div>
-</article></div>
-  <div class="foot"><span>Dados sincronizados via OCPP 2.0.1</span><a href="#">Feedback</a></div>
+  <div class="listhead" id="listHead"><b>Carregando...</b><span>RECIFE • BOA VIAGEM</span></div>
+  <div class="cards" id="stationCards"></div>
+  <div class="foot"><span>Dados sincronizados via OCPP 2.0.1 • Boa Viagem</span><a href="#" id="btnFeedback">Feedback</a></div>
  </aside>
  <section class="map">
-  <div class="mapbg"><span class="maplabel" style="left:60px;top:120px">Pq. Villa-Lobos</span><span class="maplabel" style="left:90px;top:560px">Ibirapuera</span><span class="maplabel" style="left:470px;top:70px">Campus Universitário</span><span class="maplabel" style="left:300px;top:860px">Rio Pinheiros</span><span class="maplabel" style="left:120px;top:330px">Pinheiros</span><span class="maplabel" style="left:520px;top:470px">Itaim Bibi</span><span class="maplabel" style="left:440px;top:700px">Cerqueira César</span><span class="maplabel" style="left:640px;top:300px">Consolação</span></div>
-  <div class="radius"><span>Raio 2,5 km</span></div>
-  <div class="me"></div>
-  <div class="banner"><svg class="ico "><use href="#people"/></svg><span>Previsões em tempo real validadas por <b>check-outs colaborativos</b> da comunidade EletroLink.</span></div>
-
-  <div class="pin amber" style="left:473px;top:188px"><div class="lab">Voltix Campus <span style="color:var(--amber-text)">• Livre ~18m (50 kW)</span></div><div class="stem"></div><div class="knob"></div></div>
-  <div class="pin blue" style="left:62px;top:124px"><div class="lab">150 kW DC <span style="color:var(--green-text)">1 Livre</span></div><div class="stem"></div><div class="knob"></div></div>
-  <div class="pin red" style="left:468px;top:627px"><div class="lab">Em manutenção</div><div class="stem"></div><div class="knob"></div></div>
-
-  <div class="pin sel" style="left:240px;top:277px">
-    <div class="pop"><b>Shopping Eldorado</b><small style="color:var(--green-text)">50 kW Livre</small><small>2 vagas livres • R$ 1,95/kWh</small><small><svg class="ico " style="display:inline;vertical-align:-2px;font-size:12px"><use href="#car"/></svg> 3 min de carro</small><a href="detalhes.html">Iniciar Rota</a></div>
-    <div class="pop-tip"></div><div class="knob" style="margin-top:2px"></div>
-  </div>
+  <div id="leafletMap" style="position:absolute;inset:0"></div>
+  <div class="banner"><svg class="ico "><use href="#people"/></svg><span>Previsões em tempo real validadas por <b>check-outs colaborativos</b> da comunidade EletroLink.</span><button type="button" class="sim-btn" id="btnSimulateCheckout">Simular check-out</button></div>
 
   <div class="legend"><span><i style="background:var(--green)"></i>Disponível</span><span><i style="background:var(--amber)"></i>Previsto</span><span><i style="background:var(--primary)"></i>Ultra DC</span><span><i style="background:var(--red)"></i>Manutenção</span></div>
   <div class="map-ctl br">
-   <button class="cbtn rect" title="Camadas"><svg class="ico "><use href="#layers"/></svg></button>
-   <button class="cbtn rect" title="Centralizar"><svg class="ico "><use href="#locate"/></svg></button>
-   <div class="czoom rect"><button><svg class="ico "><use href="#plus"/></svg></button><hr><button><svg class="ico "><use href="#minus"/></svg></button></div>
+   <button type="button" class="cbtn rect" id="btnLayers" title="Alternar camada do mapa"><svg class="ico "><use href="#layers"/></svg></button>
+   <button type="button" class="cbtn rect" id="btnLocate" title="Centralizar em Boa Viagem"><svg class="ico "><use href="#locate"/></svg></button>
+   <div class="czoom rect"><button type="button" id="btnZoomIn" title="Aumentar zoom"><svg class="ico "><use href="#plus"/></svg></button><hr><button type="button" id="btnZoomOut" title="Diminuir zoom"><svg class="ico "><use href="#minus"/></svg></button></div>
   </div>
  </section>
 </main><footer class="footer"><div class="in">
-  <div class="l"><span class="mk"><svg class="ico fill"><use href="#bolt"/></svg></span><span class="nm">EletroLink</span><span class="cp">© 2025 Plataforma Inteligente de Recarga EV.</span></div>
+  <div class="l"><span class="mk"><svg class="ico fill"><use href="#bolt"/></svg></span><span class="nm">EletroLink</span><span class="cp">© 2026 Plataforma Inteligente de Recarga EV • Corredor Piloto Boa Viagem.</span></div>
   <nav><a href="index.html">Estações &amp; Mapa</a><a href="#">Planejador de Rotas</a><a href="#">Minhas Recargas</a></nav>
 </div></footer>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<script src="app.js"></script>
 </body></html>

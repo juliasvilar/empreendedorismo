@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -56,48 +57,44 @@
   </div>
 </div></header>
 <main class="s2">
- <div class="mapwrap" style="left:0"><div class="mapbg" style="left:0"><span class="maplabel" style="left:60px;top:120px">Pq. Villa-Lobos</span><span class="maplabel" style="left:90px;top:560px">Ibirapuera</span><span class="maplabel" style="left:470px;top:70px">Campus Universitário</span><span class="maplabel" style="left:300px;top:860px">Rio Pinheiros</span><span class="maplabel" style="left:120px;top:330px">Pinheiros</span><span class="maplabel" style="left:520px;top:470px">Itaim Bibi</span><span class="maplabel" style="left:440px;top:700px">Cerqueira César</span><span class="maplabel" style="left:640px;top:300px">Consolação</span></div></div>
- <div class="mappin" style="left:590px;top:289px"><i></i><b>Eletroposto Paulista Hub</b><span style="background:var(--mint);color:var(--mint-text)">150 kW</span></div>
- <div class="mappin" style="left:794px;top:495px"><i></i><b>Shopping Cidade São Paulo</b><span style="background:var(--s5);color:var(--navy)">60 kW</span></div>
- <div class="mappin" style="left:691px;top:470px"><i></i><b>Edifício Faria Lima Tower</b><span style="background:var(--mint);color:var(--mint-text)">22 kW</span></div>
- <div class="mappin" style="left:998px;top:186px"><i></i><b>Ibirapuera Park Station</b><span style="background:var(--mint);color:var(--mint-text)">300 kW</span></div>
+ <div class="mapwrap" style="left:0"><div id="leafletFiltersMap" style="position:absolute;inset:0"></div></div>
  <div class="map-ctl" style="right:24px;top:24px">
-   <button class="cbtn"><svg class="ico "><use href="#locate"/></svg></button><button class="cbtn"><svg class="ico "><use href="#layers"/></svg></button>
-   <div class="czoom"><button><svg class="ico "><use href="#plus"/></svg></button><hr><button><svg class="ico "><use href="#minus"/></svg></button></div>
+   <button type="button" class="cbtn" id="fLocate" title="Centralizar em Boa Viagem"><svg class="ico "><use href="#locate"/></svg></button>
+   <button type="button" class="cbtn" id="fLayers" title="Alternar camada"><svg class="ico "><use href="#layers"/></svg></button>
+   <div class="czoom"><button type="button" id="fZoomIn" title="Aumentar zoom"><svg class="ico "><use href="#plus"/></svg></button><hr><button type="button" id="fZoomOut" title="Diminuir zoom"><svg class="ico "><use href="#minus"/></svg></button></div>
  </div>
  <aside class="drawer">
   <div class="dh">
-   <div class="tt"><div class="ti"><span class="ic"><svg class="ico "><use href="#sliders"/></svg></span><div><h2>Filtros de Carregador</h2><small>Defina padrões ideais para sua recarga</small></div></div>
-    <div class="row" style="gap:4px"><button class="clear">Limpar todos</button><a class="xbtn" href="index.html" title="Fechar"><svg class="ico "><use href="#x"/></svg></a></div></div>
-   <div class="tags">
-    <span class="tag"><i class="dot"></i>CCS2 (Combo 2)<svg class="ico "><use href="#x"/></svg></span><span class="tag"><i class="dot"></i>Tipo 2<svg class="ico "><use href="#x"/></svg></span>
-    <span class="tag"><svg class="ico " style="font-size:11px"><use href="#walk"/></svg>Raio 800m<svg class="ico "><use href="#x"/></svg></span><span class="tag hl"><svg class="ico " style="font-size:10px"><use href="#bolt"/></svg>≥ 50 kW<svg class="ico "><use href="#x"/></svg></span>
-   </div>
+   <div class="tt"><div class="ti"><span class="ic"><svg class="ico "><use href="#sliders"/></svg></span><div><h2>Filtros de Carregador</h2><small>Defina padrões ideais para sua recarga em Boa Viagem</small></div></div>
+    <div class="row" style="gap:4px"><button type="button" class="clear" id="clearAllFilters">Limpar todos</button><a class="xbtn" href="index.html" title="Fechar"><svg class="ico "><use href="#x"/></svg></a></div></div>
+   <div class="tags" id="activeFilterTags"></div>
   </div>
   <div class="dbody">
    <div class="sec"><div class="hd"><h3>1. Tipo de Plugue do Carro</h3><span>Compatibilidade Total</span></div>
-    <div class="opt"><div class="cb"></div><div class="b"><div class="r1"><b>CCS2 (Combo 2)</b><span class="pl m">50-350 kW</span></div><div class="sub">Rápido &amp; Ultra DC • Padrão Europeu / Brasil</div><div class="ok"><svg class="ico " style="font-size:12px"><use href="#check-circle"/></svg>Pleno suporte ao seu modelo configurado</div></div></div>
-    <div class="opt"><div class="cb"></div><div class="b"><div class="r1"><b>Tipo 2 (Mennekes)</b><span class="pl">7-22 kW</span></div><div class="sub">AC Urbano Semipúblico &amp; Wallbox</div><div class="ok"><svg class="ico " style="font-size:12px"><use href="#check-circle"/></svg>Compatível com cabo de bordo Tipo 2</div></div></div>
-    <div class="opt inactive"><div class="cb"></div><div class="b"><div class="r1"><b>CHAdeMO</b><span class="pl">até 50 kW</span></div><div class="sub">Padrão Asiático Legado (Nissan Leaf, etc.)</div></div></div>
+    <div class="opt" data-plug="CCS2"><div class="cb"></div><div class="b"><div class="r1"><b>CCS2 (Combo 2)</b><span class="pl m">40-120 kW</span></div><div class="sub">Rápido &amp; Ultra DC • Padrão Europeu / Brasil</div><div class="ok"><svg class="ico " style="font-size:12px"><use href="#check-circle"/></svg>Pleno suporte ao seu modelo configurado</div></div></div>
+    <div class="opt" data-plug="Tipo 2"><div class="cb"></div><div class="b"><div class="r1"><b>Tipo 2 (Mennekes)</b><span class="pl">7-22 kW</span></div><div class="sub">AC Urbano Semipúblico &amp; Wallbox</div><div class="ok"><svg class="ico " style="font-size:12px"><use href="#check-circle"/></svg>Compatível com cabo de bordo Tipo 2</div></div></div>
+    <div class="opt inactive" data-plug="CHAdeMO"><div class="cb"></div><div class="b"><div class="r1"><b>CHAdeMO</b><span class="pl">até 50 kW</span></div><div class="sub">Padrão Asiático Legado (Nissan Leaf, etc.)</div></div></div>
    </div>
    <div class="sec"><div class="hd"><h3>2. Potência Mínima</h3><span class="p">DC Recomendado</span></div>
-    <div class="seg"><button>Qualquer</button><button>AC Lento <small>≥ 7 kW</small></button><button>Rápido <small>≥ 22 kW</small></button><button class="on">Ultra-rápido <small>≥ 50 kW</small></button></div></div>
+    <div class="seg"><button type="button" data-power="0">Qualquer</button><button type="button" data-power="7">AC Lento <small>≥ 7 kW</small></button><button type="button" data-power="22">Rápido <small>≥ 22 kW</small></button><button type="button" data-power="50">Ultra-rápido <small>≥ 50 kW</small></button></div></div>
    <div class="sec"><div class="hd"><h3>3. Tarifa e Custo</h3></div>
-    <div class="pills"><span class="chip">Todos</span><span class="chip"><svg class="ico " style="font-size:13px"><use href="#gift"/></svg>Apenas Gratuitos</span><span class="chip on"><svg class="ico " style="font-size:12px"><use href="#receipt"/></svg>Econômicos (até R$ 2,00/kWh)</span></div></div>
-   <div class="walk"><div class="hd"><div><svg class="ico "><use href="#walk"/></svg><h3 class="jk" style="font-size:15px">4. Raio de Caminhada a Pé</h3></div><span class="val">800 m (~10 min)</span></div>
-    <p>Ponto ideal para recarregar sem desvios enquanto você vai a pé ao seu compromisso.</p>
-    <div class="slider"><div class="track"><div class="fill"></div><div class="th"></div></div><div class="lb"><span>300m</span><span>500m</span><b>800m</b><span>1.5km</span><span>3km</span></div></div></div>
+    <div class="pills"><span class="chip" data-tariff="all">Todos</span><span class="chip" data-tariff="free"><svg class="ico " style="font-size:13px"><use href="#gift"/></svg>Apenas Gratuitos</span><span class="chip" data-tariff="economic"><svg class="ico " style="font-size:12px"><use href="#receipt"/></svg>Econômicos (até R$ 2,00/kWh)</span></div></div>
+   <div class="walk"><div class="hd"><div><svg class="ico "><use href="#walk"/></svg><h3 class="jk" style="font-size:15px">4. Raio de Busca / Caminhada</h3></div><span class="val" id="radiusVal">2,5 km (~31 min)</span></div>
+    <p>Ponto ideal para recarregar sem desvios no corredor de Boa Viagem.</p>
+    <div class="slider"><div class="track"><input type="range" id="radiusRange" min="0" max="5" step="1" value="4" aria-label="Raio de busca"><div class="fill" id="radiusFill"></div><div class="th" id="radiusThumb"></div></div><div class="lb"><span>300m</span><span>500m</span><span>800m</span><span>1.5km</span><b>2.5km</b><span>3km</span></div></div></div>
    <div class="insight"><div class="ic"><svg class="ico "><use href="#trend"/></svg></div><div><h4>5. Previsão de Disponibilidade <em>IA LIVE</em></h4>
-     <div class="big">85% de probabilidade</div><p>Tomada livre estimada sem filas no raio de 800m nos próximos 30 minutos.</p>
+     <div class="big" id="insightProb">85% de probabilidade</div><p id="insightDesc">Tomada livre estimada sem filas em Boa Viagem nos próximos 30 minutos.</p>
      <div class="cf">Confiança do algoritmo: <i></i><i></i><i></i></div></div></div>
   </div>
   <div class="dfoot">
-   <div class="r"><span><i></i>7 carregadores compatíveis</span><span>Alta fluidez</span></div>
-   <a class="apply" href="index.html"><svg class="ico " style="font-size:18px"><use href="#check-circle"/></svg>Aplicar Filtros (7 resultados encontrados)</a>
+   <div class="r"><span id="footerCount"><i></i>9 carregadores compatíveis</span><span id="footerFluid">Alta fluidez</span></div>
+   <a class="apply" id="applyFiltersBtn" href="index.html"><svg class="ico " style="font-size:18px"><use href="#check-circle"/></svg>Aplicar Filtros</a>
   </div>
  </aside>
 </main><footer class="footer"><div class="in">
-  <div class="l"><span class="mk"><svg class="ico fill"><use href="#bolt"/></svg></span><span class="nm">EletroLink</span><span class="cp">© 2025 Plataforma Inteligente de Recarga EV.</span></div>
+  <div class="l"><span class="mk"><svg class="ico fill"><use href="#bolt"/></svg></span><span class="nm">EletroLink</span><span class="cp">© 2026 Plataforma Inteligente de Recarga EV • Corredor Piloto Boa Viagem.</span></div>
   <nav><a href="index.html">Estações &amp; Mapa</a><a href="#">Planejador de Rotas</a><a href="#">Minhas Recargas</a></nav>
 </div></footer>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<script src="app.js"></script>
 </body></html>

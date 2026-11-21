@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -57,37 +58,36 @@
 </div></header>
 <main class="s3"><div class="grid12">
 <section class="left">
- <div class="back"><a href="index.html"><svg class="ico "><use href="#arrow-left"/></svg>Voltar para lista de carregadores</a><span class="idpill"><i></i>ID: VTX-0842</span></div>
- <div class="ttl"><div class="tags2"><span class="net">Rede Neutra Voltix</span><span class="hom"><svg class="ico " style="font-size:12px"><use href="#check-circle"/></svg>Hub Homologado</span></div>
-  <h1>Rede Voltix – Campus Norte</h1><div class="ad"><svg class="ico "><use href="#pin"/></svg>Rua da Consolação, 1200 - São Paulo, SP <span style="color:var(--muted);font-weight:700">•</span> <b>400 m de distância</b></div></div>
+ <div class="back"><a href="index.html"><svg class="ico "><use href="#arrow-left"/></svg>Voltar para lista de carregadores</a><span class="idpill" id="dtCode"><i></i>ID: DUO-0161</span></div>
+ <div class="ttl"><div class="tags2"><span class="net" id="dtNet">Rede Tupi</span><span class="hom"><svg class="ico " style="font-size:12px"><use href="#check-circle"/></svg>Hub Homologado</span></div>
+  <h1 id="dtName">Carregando estação...</h1><div class="ad" id="dtAddr"></div></div>
  <div class="photo photo-ph"><div class="totem"></div><div class="ov"></div>
-  <div class="cap"><span class="a"><svg class="ico " style="font-size:12px"><use href="#car"/></svg>Totem Pátio Principal • Bloco B</span><span class="b">Foto verificada há 3 dias</span></div></div>
+  <div class="cap"><span class="a" id="dtTotemLabel"></span><span class="b" id="dtPhotoVer"></span></div></div>
  <div class="pred"><div class="glow"></div>
-  <div class="h"><h2><svg class="ico "><use href="#pin"/></svg>Previsão Preditiva</h2><span class="stbadge"><i></i>Parcialmente Ocupado</span></div>
-  <div class="pbox"><div class="l1"><div><div class="k">Tempo estimado de liberação</div><div class="v">Livre em ~18 min</div></div><div class="hg"><svg class="ico "><use href="#hourglass"/></svg></div></div>
-   <div class="l2"><svg class="ico "><use href="#clock"/></svg>Vaga AC prevista para <b>~15:00</b> (Cálculo realizado às 14:42).</div>
-   <div class="confbox"><div class="t"><span><svg class="ico "><use href="#check-circle"/></svg>Alta Confiança</span><div><i></i><i></i><i></i></div></div><p>Baseado em 6 check-outs recentes de motoristas neste mesmo horário de pico em dias úteis.</p></div></div>
-  <div class="upd"><span><svg class="ico "><use href="#clock"/></svg>Atualizado há 2 min por <a href="#">@marcos_ev</a></span><button><svg class="ico "><use href="#refresh"/></svg>Atualizar</button></div></div>
- <div class="conns"><div class="hd"><h2>Conectores no Local</h2><span>2 Pontos de Carga</span></div>
-  <div class="cn"><div class="r"><div class="m"><div class="ic"><svg class="ico "><use href="#bolt"/></svg></div><div class="mm"><div class="ln"><h3>Conector 1: CCS2</h3><span class="st"><i></i>LIVRE AGORA</span></div><div class="sp"><b>DC Ultra Rápido</b>•<b class="d">50 kW</b>•<span>Cabo Preso</span></div></div></div>
-    <div class="pr"><b>R$ 2,10</b><small>por kWh consumido</small></div></div>
-   <div class="est"><span>Estimativa típica: +120 km em 22 min</span><b>Plug &amp; Charge Ativo</b></div></div>
-  <div class="cn used"><div class="r"><div class="m"><div class="ic"><svg class="ico "><use href="#plug"/></svg></div><div class="mm"><div class="ln"><h3>Conector 2: Tipo 2</h3><span class="st"><i></i>Em uso (~18m restantes)</span></div><div class="sp"><span>AC Semi-Rápido</span>•<b class="d">22 kW</b>•<span>Cabo Próprio</span></div></div></div>
-    <div class="pr"><b class="g">GRÁTIS</b><small>Cortesia Campus</small></div></div>
-   <div class="prog"><div class="t"><span>Veículo conectado: BYD Dolphin</span><span>82% concluído</span></div><div class="bar"><i></i></div></div></div></div>
- <div class="amen"><h2>Acesso e Comodidades</h2><div class="g"><div><svg class="ico "><use href="#parking"/></svg>Estacionamento térreo</div><div><svg class="ico "><use href="#barrier-off"/></svg>Sem cancela</div><div><svg class="ico "><use href="#clock"/></svg>Aberto 24 horas</div><div><svg class="ico "><use href="#wifi"/></svg>Wi-Fi Livre no local</div></div>
-  <p>Localizado próximo à guarita 2 da Rua da Consolação. Vaga exclusiva e sinalizada com pintura verde e demarcação viária.</p></div>
- <div class="acts"><a class="go" href="#"><svg class="ico " style="font-size:15px"><use href="#navigate"/></svg>Ir até aqui (Google Maps / Waze)<svg class="ico " style="font-size:13px"><use href="#external"/></svg></a>
-  <a class="go2" href="checkout.html"><svg class="ico "><use href="#check-circle"/></svg>Estou aqui e comecei a recarregar</a></div>
+  <div class="h"><h2><svg class="ico "><use href="#pin"/></svg>Previsão Preditiva</h2><span class="stbadge" id="dtPredBadge"><i></i>Verificando</span></div>
+  <div class="pbox"><div class="l1"><div><div class="k">Tempo estimado de liberação</div><div class="v" id="dtPredVal">...</div></div><div class="hg"><svg class="ico "><use href="#hourglass"/></svg></div></div>
+   <div class="l2" id="dtPredSub"></div>
+   <div class="confbox"><div class="t" id="dtPredConf"></div><p id="dtPredBasis"></p></div>
+   <div id="dtPredAlertSlot"></div></div>
+  <div class="upd"><span id="dtPredUpd"></span><button type="button" id="dtRefreshPred"><svg class="ico "><use href="#refresh"/></svg>Atualizar</button></div></div>
+ <div class="conns"><div class="hd"><h2>Conectores no Local</h2><span id="dtConnCount"></span></div>
+  <div id="dtConns"></div></div>
+ <div class="amen"><h2>Acesso e Comodidades</h2><div class="g" id="dtAmenGrid"></div>
+  <p id="dtAmenTip"></p></div>
+ <div class="acts"><a class="go" id="dtGoExternal" href="#"><svg class="ico " style="font-size:15px"><use href="#navigate"/></svg>Ir até aqui (Google Maps / Waze)<svg class="ico " style="font-size:13px"><use href="#external"/></svg></a>
+  <a class="go2" id="dtStartCharge" href="checkout.html"><svg class="ico "><use href="#check-circle"/></svg>Estou aqui e comecei a recarregar</a></div>
 </section>
 <section class="right">
- <div class="mapbox"><div class="mapbg"><span class="maplabel" style="left:60px;top:120px">Pq. Villa-Lobos</span><span class="maplabel" style="left:90px;top:560px">Ibirapuera</span><span class="maplabel" style="left:470px;top:70px">Campus Universitário</span><span class="maplabel" style="left:300px;top:860px">Rio Pinheiros</span><span class="maplabel" style="left:120px;top:330px">Pinheiros</span><span class="maplabel" style="left:520px;top:470px">Itaim Bibi</span><span class="maplabel" style="left:440px;top:700px">Cerqueira César</span><span class="maplabel" style="left:640px;top:300px">Consolação</span></div><svg class="route" viewBox="0 0 720 720" preserveAspectRatio="none"><path d="M120 560 C 220 470, 330 380, 520 250" fill="none" stroke="#2563eb" stroke-width="4" stroke-linecap="round" opacity=".85"/><path d="M150 575 C 250 520, 400 420, 540 250" fill="none" stroke="#006a61" stroke-width="3" stroke-dasharray="6 6" stroke-linecap="round"/><circle cx="120" cy="560" r="11" fill="#004ac6" stroke="#fff" stroke-width="3"/><circle cx="530" cy="245" r="9" fill="#006a61" stroke="#fff" stroke-width="3"/><text x="72" y="595" font-size="11" font-weight="700" fill="#131b2e">Sua Posição</text><rect x="360" y="165" width="150" height="46" rx="8" fill="#131b2e"/><text x="372" y="184" font-size="10" font-weight="700" fill="#86f2e4" font-family="Plus Jakarta Sans">TOTEM VOLTIX CAMPUS</text><text x="372" y="200" font-size="9" fill="#fff">Entrada Guarita 2 • Vaga 01</text></svg>
-  <div class="bar"><span class="a"><i></i>Modo Aproximação: 400 m</span><div><span><i style="background:var(--blue)"></i>Carro (1 min)</span><span><i style="background:var(--teal)"></i>A pé (5 min)</span></div></div>
-  <div class="dir"><b><svg class="ico "><use href="#navigate"/></svg>Acesso ao Totem: 50m após o portão</b><p>Vire à direita logo após a guarita universitária. O totem de alta potência fica ao lado do bicicletário coberto.</p></div>
-  <div class="map-ctl"><button class="cbtn"><svg class="ico "><use href="#locate"/></svg></button><div class="czoom"><button><svg class="ico "><use href="#plus"/></svg></button><hr><button><svg class="ico "><use href="#minus"/></svg></button></div></div></div>
- <div class="tele"><div><small>Potência Máxima</small><b>50 kW</b><em>Corrente Contínua</em></div><div><small>Taxa de Sucesso</small><b>99.4%</b><em>Últimos 30 dias</em></div><div><small>Avaliação Média</small><b>4.9 <svg class="ico fill"><use href="#star"/></svg></b><em class="m">(128 recargas)</em></div></div>
+ <div class="mapbox">
+  <div id="leafletDetailMap" style="position:absolute;inset:0"></div>
+  <div class="bar" id="dtRouteBar"></div>
+  <div class="dir" id="dtDirBox"></div>
+  <div class="map-ctl"><button type="button" class="cbtn" id="dLocate" title="Enquadrar rota"><svg class="ico "><use href="#locate"/></svg></button><div class="czoom"><button type="button" id="dZoomIn" title="Aumentar zoom"><svg class="ico "><use href="#plus"/></svg></button><hr><button type="button" id="dZoomOut" title="Diminuir zoom"><svg class="ico "><use href="#minus"/></svg></button></div></div></div>
+ <div class="tele" id="dtTele"></div>
 </section></div></main><footer class="footer"><div class="in">
-  <div class="l"><span class="mk"><svg class="ico fill"><use href="#bolt"/></svg></span><span class="nm">EletroLink</span><span class="cp">© 2025 Plataforma Inteligente de Recarga EV.</span></div>
+  <div class="l"><span class="mk"><svg class="ico fill"><use href="#bolt"/></svg></span><span class="nm">EletroLink</span><span class="cp">© 2026 Plataforma Inteligente de Recarga EV • Corredor Piloto Boa Viagem.</span></div>
   <nav><a href="index.html">Estações &amp; Mapa</a><a href="#">Planejador de Rotas</a><a href="#">Minhas Recargas</a></nav>
 </div></footer>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<script src="app.js"></script>
 </body></html>
